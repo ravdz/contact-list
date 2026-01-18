@@ -16,37 +16,236 @@ code {
   display: flex;
   justify-content: center;
   align-items: space-between;
-  margin: 20px 0;
+  margin: 0 0 20px;
 }
 
-.selected {
+/* Heading */
+
+.heading {
+  margin: 0;
   color: #333333;
-  font-size: 26px;
-  font-weight: 700;
-  margin: 10px 20px 0 0;
-}
-
-.person-info:hover {
-  padding: 30px;
-  border: 2px solid pink;
-}
-
-.firstNameLastName {
-  padding: 0 0 10px;
-  color: #333333;
-  font-size: 26px;
   font-weight: 700;
 }
 
-.jobTitle {
-  padding: 0 0 20px;
-  color: #e74c3c;
+/* Text */
+
+.text {
+  margin: 0;
+  color: #333333;
+  font-size: 14px;
+}
+
+/* Button */
+
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #ffffff;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #c0392b;
+}
+
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Error State */
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f4f4f4;
+  z-index: 999;
+}
+
+.error-state__message {
+  color: #ba1907;
+}
+
+/* Spinner */
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffffff;
+  border-bottom-color: #e74c3c;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+} 
+
+/* Loading State */
+
+.loading-state {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #66666680;
+  z-index: 999;
+}
+
+/* Contact List */
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.contact-list__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  height: 50px;
+  border-bottom: 1px solid  #66666620;
+}
+
+.contact-list__counter {
+  font-size: 24px;
+  margin: 0;
+}
+
+.contact-list__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 0;
+  margin: 70px 0 0 0;
+}
+
+/* Contact Item */
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 35px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid transparent;
+  transition: border 0.2s ease;
+  cursor: pointer;
+  max-width: 320px;
+  width: 100%;
+}
+
+.contact-item--selected {
+  outline: 1px solid #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.contact-item:hover {
+  border: 1px solid #e74c3c;
+}
+
+.contact-item__content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.contact-item__info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-item__name {
   font-size: 20px;
-  font-weight: 400;
+  text-align: left;
 }
 
-.emailAddress {
+.contact-item__job-title {
+  text-transform: uppercase;
+  color: #e74c3c;
+  text-align: left;
+}
+
+.contact-item__email-link {
   color: #666666;
   font-size: 14px;
   line-height: 1.8em;
+  text-decoration: none;
+  text-align: center;
+}
+
+.contact-item__email-link:hover {
+  text-decoration: underline;
+  color: #e74c3c;
+}
+
+/* Avatar */
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar__initials {
+  font-size: 16px;
+  color: #333333;
+  text-align: center;
 }
