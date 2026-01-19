@@ -49,10 +49,8 @@ describe('Contact list', () => {
         await waitFor(() => {
             expect(screen.getByTestId('load-more-button')).toBeInTheDocument();
         });
-
         const loadMoreButton = screen.getByTestId('load-more-button');
         await user.click(loadMoreButton);
-        
         await waitFor(() => {
             expect(screen.getAllByTestId('contact-item')).toHaveLength(20);
         });
@@ -64,12 +62,19 @@ describe('Contact list', () => {
             expect(screen.getByTestId('loading-state')).toBeInTheDocument();
         });
     });
-    it('displays error state when fetching data fails', async () => {
-        (apiData as jest.Mock).mockRejectedValue(new Error('Something went wrong'));
+    it('displays error state when fetching data fails and "Try Again" button refetches data', async () => {
+        const user = userEvent.setup();
+        (apiData as jest.Mock)
+            .mockRejectedValueOnce(new Error('Something went wrong'))
+            .mockResolvedValueOnce({ contacts: createMockContacts(0), total: 100 });
         render(<ContactList/>);
-
+        
         await waitFor(() => {
             expect(screen.getByTestId('error-state')).toBeInTheDocument();
+        });
+        await user.click(screen.getByTestId('try-again-button'));
+        await waitFor(() => {
+            expect(screen.getAllByTestId('contact-item')).toHaveLength(10);
         });
     });
     it('each contact information card is selectable', async () => {
@@ -79,7 +84,6 @@ describe('Contact list', () => {
         await waitFor(() => {
             expect(screen.getAllByTestId('contact-item')).toHaveLength(10);
         });
-        
         const firstContactItem = screen.getAllByTestId('contact-item')[0];
         const selectedContactsCounter = screen.getByTestId('selected-contacts-counter');
         expect(selectedContactsCounter).toHaveTextContent('0');
@@ -93,7 +97,6 @@ describe('Contact list', () => {
         await waitFor(() => {
             expect(screen.getAllByTestId('contact-item')).toHaveLength(10);
         });
-        
         const firstContactItem = screen.getAllByTestId('contact-item')[0];
         await user.click(firstContactItem);
         expect(firstContactItem).toHaveClass('contact-item--selected');
@@ -121,13 +124,10 @@ describe('Contact list', () => {
         await waitFor(() => {
             expect(screen.getAllByTestId('contact-item')).toHaveLength(10);
         });
-        
         const contactItems = screen.getAllByTestId('contact-item');
         const fifthContact = contactItems[4];
         const fifthContactName = fifthContact.querySelector('.contact-item__name')?.textContent;
-
         await user.click(fifthContact);
-        
         const updatedContactItems = screen.getAllByTestId('contact-item');
         const firstContactName = updatedContactItems[0].querySelector('.contact-item__name')?.textContent;
         expect(firstContactName).toBe(fifthContactName);

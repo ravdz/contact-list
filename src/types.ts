@@ -5,7 +5,6 @@ export type Contact = {
     jobTitle: string;
 };
 
-
 export type ContactListResponse = {
     contacts: Contact[];
     total: number;

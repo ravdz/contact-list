@@ -11,11 +11,12 @@ import { type Contact } from "src/types";
 export const ContactList = () => {
     const [total, setTotal] = useState(0);
     const [data, setData] = useState<Contact[]>([]);
-    const [selected, setSelected] = useState<string[]>([]);
+    const [selected, setSelected] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
     
     const savedScrollPosition = useRef<number | null>(null);
+    const initialFetchDone = useRef(false);
   
     const fetchData = useCallback(async () => {
       setLoading(true);
@@ -36,11 +37,14 @@ export const ContactList = () => {
     const handleSelect = useCallback((id: string) => {
         savedScrollPosition.current = window.scrollY;
         
-        setSelected((prevSelected) => {
-            if(prevSelected.includes(id)) {
-                return prevSelected.filter((selectedId) => selectedId !== id);
-            }
-            return [...prevSelected, id];
+        setSelected(prevSelected => {
+          const nextSelected = new Set(prevSelected);
+          if (nextSelected.has(id)) {
+            nextSelected.delete(id);
+          } else {
+            nextSelected.add(id);
+          }
+          return nextSelected;
         });
     }, []);
     
@@ -51,9 +55,18 @@ export const ContactList = () => {
         }
     }, [selected]);
 
-    const sortedContacts = useMemo(() => data.sort((a) =>  selected.includes(a.id) ? -1 : 1), [data, selected]);
+    const sortedContacts = useMemo(() => 
+      [...data].sort((a, b) => {
+        const aSelected = selected.has(a.id);
+        const bSelected = selected.has(b.id);
+        if (aSelected === bSelected) return 0;
+        return aSelected ? -1 : 1;
+      }), 
+    [data, selected]);
   
     useEffect(() => {
+      if (initialFetchDone.current) return;
+      initialFetchDone.current = true;
       fetchData();
     }, [fetchData]);
     
@@ -62,15 +75,14 @@ export const ContactList = () => {
             {error ? <ErrorState error={error} fetchData={fetchData}/> : null}
             {loading ? <LoadingState /> : null}
             <div className="contact-list__header">
-                <Heading as="h1" className="contact-list__counter">Selected contacts: <span data-testid="selected-contacts-counter">{selected.length}</span></Heading>
+                <Heading as="h1" className="contact-list__counter">Selected contacts: <span data-testid="selected-contacts-counter">{selected.size}</span></Heading>
             </div>
             <ul className="contact-list__items">
             {sortedContacts.map((personInfo) => (
-                <ContactItem key={personInfo.id} contact={personInfo} onSelect={handleSelect} isSelected={selected.includes(personInfo.id)} />
+                <ContactItem key={personInfo.id} contact={personInfo} onSelect={handleSelect} isSelected={selected.has(personInfo.id)} />
             ))}
             </ul>
-            {data.length && data.length < total ? <Button testId="load-more-button" onClick={fetchData} disabled={loading || !!error}>Load more</Button> : null}
+            {data.length > 0 && data.length < total ? <Button testId="load-more-button" onClick={fetchData} disabled={loading || !!error}>Load more</Button> : null}
         </div>
-
     );
 };
