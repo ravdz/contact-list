@@ -11,12 +11,13 @@ import { type Contact } from "src/types";
 export const ContactList = () => {
     const [total, setTotal] = useState(0);
     const [data, setData] = useState<Contact[]>([]);
-    const [selected, setSelected] = useState<Set<string>>(new Set());
+    const [selected, setSelected] = useState<Map<string, number>>(new Map());
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
     
     const savedScrollPosition = useRef<number | null>(null);
     const initialFetchDone = useRef(false);
+    const selectionCounter = useRef(0);
   
     const fetchData = useCallback(async () => {
       setLoading(true);
@@ -35,17 +36,18 @@ export const ContactList = () => {
     }, []);
 
     const handleSelect = useCallback((id: string) => {
-        savedScrollPosition.current = window.scrollY;
-        
-        setSelected(prevSelected => {
-          const nextSelected = new Set(prevSelected);
-          if (nextSelected.has(id)) {
-            nextSelected.delete(id);
-          } else {
-            nextSelected.add(id);
-          }
-          return nextSelected;
-        });
+      savedScrollPosition.current = window.scrollY;
+      
+      setSelected(prev => {
+        const next = new Map(prev);
+        if (next.has(id)) {
+          next.delete(id);
+        } else {
+          selectionCounter.current += 1;
+          next.set(id, selectionCounter.current);
+        }
+        return next;
+      });
     }, []);
     
     useLayoutEffect(() => {
@@ -54,21 +56,26 @@ export const ContactList = () => {
             savedScrollPosition.current = null;
         }
     }, [selected]);
-
-    const sortedContacts = useMemo(() => 
-      [...data].sort((a, b) => {
-        const aSelected = selected.has(a.id);
-        const bSelected = selected.has(b.id);
-        if (aSelected === bSelected) return 0;
-        return aSelected ? -1 : 1;
-      }), 
-    [data, selected]);
   
     useEffect(() => {
       if (initialFetchDone.current) return;
       initialFetchDone.current = true;
       fetchData();
     }, [fetchData]);
+
+    const sortedContacts = useMemo(() => 
+      [...data].sort((a, b) => {
+        const aOrder = selected.get(a.id);
+        const bOrder = selected.get(b.id);
+        
+        if (aOrder !== undefined && bOrder !== undefined) {
+          return bOrder - aOrder;
+        }
+        if (aOrder !== undefined) return -1;
+        if (bOrder !== undefined) return 1;
+        return 0;
+      }), 
+    [data, selected]);
     
     return (
         <div className="contact-list">
