@@ -11,7 +11,6 @@ type ContactItemProps = {
     isSelected: boolean;
 }
 
-
 export const ContactItem = memo(({ contact: { firstNameLastName, emailAddress, jobTitle, id }, onSelect, isSelected }: ContactItemProps) => {
     return (
         <li 
@@ -25,7 +24,7 @@ export const ContactItem = memo(({ contact: { firstNameLastName, emailAddress, j
             <div className="contact-item__content">
                 <PersonAvatar fullName={firstNameLastName} />
                 <div className="contact-item__info">
-                    <Heading as="h2" className="contact-item__name">{firstNameLastName}</Heading>
+                    <Heading className="contact-item__name">{firstNameLastName}</Heading>
                     <Text as="span" className="contact-item__job-title">{jobTitle}</Text>
                 </div>
             </div>

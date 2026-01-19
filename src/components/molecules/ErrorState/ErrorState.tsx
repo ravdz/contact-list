@@ -9,7 +9,7 @@ type ErrorStateProps = {
 export const ErrorState = ({ error, fetchData }: ErrorStateProps) => {
     return (
         <div data-testid="error-state" className="error-state">
-            <Text as="p" className="error-state__message">{error.message}</Text>
+            <Text className="error-state__message">{error.message}</Text>
             <Button onClick={fetchData} testId="try-again-button">
                 Try Again
             </Button>
