@@ -7,8 +7,8 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .App {
@@ -90,16 +90,16 @@ code {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  }
+}
 
-  @keyframes rotation {
+@keyframes rotation {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-} 
+}
 
 /* Loading State */
 
@@ -140,7 +140,7 @@ code {
   left: 0;
   background-color: #ffffff;
   height: 50px;
-  border-bottom: 1px solid  #66666620;
+  border-bottom: 1px solid #66666620;
 }
 
 .contact-list__counter {
