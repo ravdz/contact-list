@@ -156,7 +156,7 @@
 
 **Możliwe follow-up:**
 
-- Czy są sytuacje gdzie `Date.now()` byłby lepszy? - dzieki dane.now moglibysmy miec informacje o czasie kiedy item został wyrany
+- Czy są sytuacje gdzie `Date.now()` byłby lepszy? - dzieki dane.now moglibysmy miec informacje o czasie kiedy item został wybrany
 - Co by się stało, gdyby użytkownik wybrał kontakt, odznaczył go, a potem wybrał ponownie? - ostatni zaznaczony kontak zawsze pojawi sie na początku listy
 
 ---
@@ -174,8 +174,8 @@
 
 **Możliwe follow-up:**
 
-- Czy `memo` zawsze poprawia wydajność?
-- Jak byś to przetestował, żeby upewnić się, że `memo` rzeczywiście pomaga?
+- Czy `memo` zawsze poprawia wydajność? - nie zawsze, czasem kosz memoizacji moe byc większy niz realna korzysc
+- Jak byś to przetestował, żeby upewnić się, że `memo` rzeczywiście pomaga? - Mozna by sprawdzić statyski łądowania i ilość rerenderów w DevTools Profilerze
 
 ### 12. Jak działa optymalizacja scrolla? Wyjaśnij cały mechanizm.
 
@@ -188,8 +188,8 @@
 
 **Możliwe follow-up:**
 
-- Czy są edge cases, gdzie to może nie działać?
-- Jak byś to zrobił dla infinite scroll z virtualizacją?
+- Czy są edge cases, gdzie to może nie działać? -
+- Jak byś to zrobił dla infinite scroll z virtualizacją? - zamiast zapisywac pozycje scrolla na select contact, zapisywałbym ją na docrollowanie do dołu ekranu, wtedy tez rozpocząłbym pobieranie kolejnego zestawu kontakttów, dokleił go do listy a następnie ustawił scroll na pozycję przed fetchem, d owirtualizacji uzyłbym pewno react-virtualized
 
 ### 13. Czy rozważałeś użycie virtualizacji (react-window, react-virtualized) dla długich list?
 
@@ -201,8 +201,8 @@
 
 **Możliwe follow-up:**
 
-- Od jakiej liczby elementów rozważyłbyś virtualizację?
-- Jakie są wady virtualizacji?
+- Od jakiej liczby elementów rozważyłbyś virtualizację? - myślę ze w tym ypdaku od +1000
+- Jakie są wady virtualizacji? - ???
 
 ### 14. Dlaczego nie użyłeś `React.memo` z custom comparison function dla `ContactItem`?
 
@@ -215,8 +215,8 @@
 
 **Możliwe follow-up:**
 
-- W jakiej sytuacji użyłbyś custom comparison?
-- Jak byś napisał custom comparison function?
+- W jakiej sytuacji użyłbyś custom comparison? - ??
+- Jak byś napisał custom comparison function? - jest to durgi argument przekazany do memo(), jest to funkcja która w body udostępnia prev props i next props, jeśli funcka zwraca true to nie ma sie rerenderowac, jesli false to ma sie rerenderować
 
 ---
 
@@ -233,8 +233,8 @@
 
 **Możliwe follow-up:**
 
-- Czy zawsze tworzysz osobny plik z typami?
-- Jak byś zorganizował typy dla większego projektu?
+- Czy zawsze tworzysz osobny plik z typami? - Nie zawsze, np typy dotyczące propsó∑ przyjmowanych przez danuy komponent rczej trzymam w pliku tsx ponad definicja komponentu, ale jeśli uwazam ze jakis typ bedzie reuzywalny to straram sie go wyodrębnic
+- Jak byś zorganizował typy dla większego projektu? - np zrobiłbym dedykowany folder na typy z podfolderami na odpowiadajace poszczegolnym modulom
 
 ### 16. Dlaczego użyłeś `type` zamiast `interface` dla typów?
 
