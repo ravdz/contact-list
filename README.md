@@ -1,73 +1,83 @@
-# TODO
+# Contact List
 
-Please do not fork the repo, clone it and put it in your own github / save it locally.
+A React application that displays a paginated, selectable list of contacts.
 
-Definition of done:
+## Overview
 
-1. Fetch contacts using `apiData` function. Contacts are paginated (10 items in batch).
-2. "Load more" button is positioned at the bottom of the list. It fetches next batch and appends it to the existing list.
-3. Loading state is handled, display some kind of spinner / loader.
-4. Error state is handled. It allows to refetch failed batch.
-5. Each contact information card is selectable.
-6. Selected contacts have outline around them.
-7. Selected card can be deselected.
-8. Selected contacts are displayed at the top of the list.
-9. List performance is optimized when selecting/deselecting/scrolling cards.
+The app fetches contact data in batches and lets users browse, load more items, and select contacts. Selected contacts are visually highlighted and pinned to the top of the list. The implementation focuses on clear UX (loading and error states, retry on failure) and on list performance when selecting, deselecting, and scrolling.
 
-Doing this task in typescript is preferred. However, if you do not feel comfortable with typescript, please change file extension to js.
+## Tech Stack
 
-We appreciate code that is written manually, so avoid including extra dependencies unless they are essential.
-Design choices are yours, but please stick to provided layout pattern. Please have UX in mind when making decisions.
+- **React** with **TypeScript**
+- **Create React App**
+- **Testing Library** (React, user-event, jest-dom) for component tests
 
-![layout.png](layout.png)
+Dependencies are kept minimal; the code is written manually without extra libraries beyond what is needed.
 
-Optional: Add functional / unit tests with testing library of your choice.
+## Features
 
-Good luck and do not hesitate to ask in case of any questions!
+The application implements the following behaviour (aligned with the original specification):
 
----
+1. **Paginated data** — Contacts are fetched using the `apiData` function, with 10 items per batch.
+2. **Load more** — A “Load more” button at the bottom of the list fetches the next batch and appends it to the existing list.
+3. **Loading state** — A spinner/loader is shown while a batch is being fetched.
+4. **Error state** — When a fetch fails, an error state is shown with an option to refetch the failed batch (e.g. “Try again”).
+5. **Selectable cards** — Each contact card is clickable and can be selected.
+6. **Selected styling** — Selected contacts have a visible outline (or equivalent visual distinction).
+7. **Deselection** — Clicking a selected card again deselects it.
+8. **Selected at top** — Selected contacts are displayed at the top of the list.
+9. **Performance** — The list is optimized for smooth interaction when selecting, deselecting, and scrolling.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Design and layout follow the provided pattern, with UX in mind.
 
-## Available Scripts
+## Tests
 
-In the project directory, you can run:
+The project includes functional/unit tests in `src/tests/ContactList.test.tsx`. They cover:
 
-### `yarn start`
+- Pagination (10 items per batch)
+- “Load more” button fetching and appending the next batch
+- Loading state visibility
+- Error state and “Try again” refetch
+- Card selection and deselection
+- Selected cards having the correct outline/class
+- Selected contacts appearing at the top of the list
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Run tests:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```bash
+yarn test
+```
 
-### `yarn test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `yarn build`
+- Node.js
+- Yarn (or npm)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Install and run
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```bash
+yarn install
+yarn start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-### `yarn eject`
+### Build for production
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+yarn build
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The built app is output to the `build` folder.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Project Structure
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The UI is organized using an atomic-style structure:
 
-## Learn More
+- **atoms** — Button, Heading, PersonAvatar, Spinner, Text
+- **molecules** — ContactItem, ErrorState, LoadingState
+- **organisms** — ContactList (orchestrates data fetching, pagination, selection, and list order)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Data is fetched via `src/api.ts`; types are defined in `src/types.ts`.

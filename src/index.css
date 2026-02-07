@@ -7,8 +7,8 @@ body {
 }
 
 code {
-  font-family:
-    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 .App {
@@ -66,6 +66,9 @@ code {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.error-state--overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -73,6 +76,14 @@ code {
   height: 100vh;
   background-color: #f4f4f4;
   z-index: 999;
+}
+
+.error-state--inline {
+  padding: 16px;
+  margin-top: 16px;
+  border: 1px solid #ba1907;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .error-state__message {

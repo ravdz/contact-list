@@ -84,12 +84,18 @@ export const ContactList = () => {
         if (bOrder !== undefined) return 1;
         return 0;
       }),
-    [data, selected],
+    [data, selected]
   );
+
+  const hasItemsToShow = data.length > 0;
+  const allItemsLoaded = data.length >= total;
+  const isInitialLoadError = error && !hasItemsToShow;
 
   return (
     <div className="contact-list">
-      {error ? <ErrorState error={error} fetchData={fetchData} /> : null}
+      {isInitialLoadError ? (
+        <ErrorState error={error} onRetry={fetchData} variant="overlay" />
+      ) : null}
       {loading ? <LoadingState /> : null}
       <div className="contact-list__header">
         <Heading as="h1" className="contact-list__counter">
@@ -107,11 +113,14 @@ export const ContactList = () => {
           />
         ))}
       </ul>
-      {data.length > 0 && data.length < total ? (
+      {error && hasItemsToShow ? (
+        <ErrorState error={error} onRetry={fetchData} variant="inline" />
+      ) : null}
+      {hasItemsToShow && !allItemsLoaded && !error ? (
         <Button
           testId="load-more-button"
           onClick={fetchData}
-          disabled={loading || !!error}
+          disabled={loading}
         >
           Load more
         </Button>
