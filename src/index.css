@@ -66,6 +66,9 @@ code {
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.error-state--overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -73,6 +76,14 @@ code {
   height: 100vh;
   background-color: #f4f4f4;
   z-index: 999;
+}
+
+.error-state--inline {
+  padding: 16px;
+  margin-top: 16px;
+  border: 1px solid #ba1907;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .error-state__message {
@@ -90,16 +101,16 @@ code {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  }
+}
 
-  @keyframes rotation {
+@keyframes rotation {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-} 
+}
 
 /* Loading State */
 
@@ -140,7 +151,7 @@ code {
   left: 0;
   background-color: #ffffff;
   height: 50px;
-  border-bottom: 1px solid  #66666620;
+  border-bottom: 1px solid #66666620;
 }
 
 .contact-list__counter {
